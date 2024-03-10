@@ -48,7 +48,7 @@ type DB interface {
 	// startKey: The first record key to read.
 	// count: The number of records to read.
 	// fields: The list of fields to read, nil|empty for reading all.
-	Scan(ctx context.Context, table string, startKey string, count int, fields []string) ([]map[string][]byte, error)
+	// Scan(ctx context.Context, table string, startKey string, count int, fields []string) ([]map[string][]byte, error)
 
 	// Update updates a record in the database. Any field/value pairs will be written into the
 	// database or overwritten the existing values with the same field name.

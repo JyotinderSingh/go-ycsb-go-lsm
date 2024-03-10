@@ -368,8 +368,8 @@ func (c *core) DoTransaction(ctx context.Context, db ycsb.DB) error {
 		return c.doTransactionUpdate(ctx, db, state)
 	case insert:
 		return c.doTransactionInsert(ctx, db, state)
-	case scan:
-		return c.doTransactionScan(ctx, db, state)
+	// case scan:
+	// 	return c.doTransactionScan(ctx, db, state)
 	default:
 		return c.doTransactionReadModifyWrite(ctx, db, state)
 	}
@@ -491,25 +491,25 @@ func (c *core) doTransactionInsert(ctx context.Context, db ycsb.DB, state *coreS
 	return db.Insert(ctx, c.table, dbKey, values)
 }
 
-func (c *core) doTransactionScan(ctx context.Context, db ycsb.DB, state *coreState) error {
-	r := state.r
-	keyNum := c.nextKeyNum(state)
-	startKeyName := c.buildKeyName(keyNum)
+// func (c *core) doTransactionScan(ctx context.Context, db ycsb.DB, state *coreState) error {
+// 	r := state.r
+// 	keyNum := c.nextKeyNum(state)
+// 	startKeyName := c.buildKeyName(keyNum)
 
-	scanLen := c.scanLength.Next(r)
+// 	scanLen := c.scanLength.Next(r)
 
-	var fields []string
-	if !c.readAllFields {
-		fieldName := state.fieldNames[c.fieldChooser.Next(r)]
-		fields = append(fields, fieldName)
-	} else {
-		fields = state.fieldNames
-	}
+// 	var fields []string
+// 	if !c.readAllFields {
+// 		fieldName := state.fieldNames[c.fieldChooser.Next(r)]
+// 		fields = append(fields, fieldName)
+// 	} else {
+// 		fields = state.fieldNames
+// 	}
 
-	_, err := db.Scan(ctx, c.table, startKeyName, int(scanLen), fields)
+// 	_, err := db.Scan(ctx, c.table, startKeyName, int(scanLen), fields)
 
-	return err
-}
+// 	return err
+// }
 
 func (c *core) doTransactionUpdate(ctx context.Context, db ycsb.DB, state *coreState) error {
 	keyNum := c.nextKeyNum(state)

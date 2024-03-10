@@ -77,14 +77,14 @@ func (db DbWrapper) BatchRead(ctx context.Context, table string, keys []string, 
 	return nil, nil
 }
 
-func (db DbWrapper) Scan(ctx context.Context, table string, startKey string, count int, fields []string) (_ []map[string][]byte, err error) {
-	start := time.Now()
-	defer func() {
-		measure(start, "SCAN", err)
-	}()
+// func (db DbWrapper) Scan(ctx context.Context, table string, startKey string, count int, fields []string) (_ []map[string][]byte, err error) {
+// 	start := time.Now()
+// 	defer func() {
+// 		measure(start, "SCAN", err)
+// 	}()
 
-	return db.DB.Scan(ctx, table, startKey, count, fields)
-}
+// 	return db.DB.Scan(ctx, table, startKey, count, fields)
+// }
 
 func (db DbWrapper) Update(ctx context.Context, table string, key string, values map[string][]byte) (err error) {
 	start := time.Now()

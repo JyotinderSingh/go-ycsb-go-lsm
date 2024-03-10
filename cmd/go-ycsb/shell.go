@@ -17,7 +17,6 @@ import (
 	"context"
 	"fmt"
 	"io"
-	"strconv"
 	"strings"
 
 	"github.com/chzyer/readline"
@@ -72,13 +71,13 @@ func runShellCommand(args []string) {
 			Run:                   runShellReadCommand,
 			DisableFlagsInUseLine: true,
 		},
-		&cobra.Command{
-			Use:                   "scan key recordcount [field0 field1 field2 ...]",
-			Short:                 "Scan starting at key",
-			Args:                  cobra.MinimumNArgs(2),
-			Run:                   runShellScanCommand,
-			DisableFlagsInUseLine: true,
-		},
+		// &cobra.Command{
+		// 	Use:                   "scan key recordcount [field0 field1 field2 ...]",
+		// 	Short:                 "Scan starting at key",
+		// 	Args:                  cobra.MinimumNArgs(2),
+		// 	Run:                   runShellScanCommand,
+		// 	DisableFlagsInUseLine: true,
+		// },
 		&cobra.Command{
 			Use:                   "insert key field0=value0 [field1=value1 ...]",
 			Short:                 "Insert a record",
@@ -134,35 +133,35 @@ func runShellReadCommand(cmd *cobra.Command, args []string) {
 	}
 }
 
-func runShellScanCommand(cmd *cobra.Command, args []string) {
-	key := args[0]
-	recordCount, err := strconv.Atoi(args[1])
-	if err != nil {
-		fmt.Printf("invalid record count %s for scan\n", args[1])
-		return
-	}
-	fields := args[2:]
+// func runShellScanCommand(cmd *cobra.Command, args []string) {
+// 	key := args[0]
+// 	recordCount, err := strconv.Atoi(args[1])
+// 	if err != nil {
+// 		fmt.Printf("invalid record count %s for scan\n", args[1])
+// 		return
+// 	}
+// 	fields := args[2:]
 
-	rows, err := globalDB.Scan(shellContext, tableName, key, recordCount, fields)
-	if err != nil {
-		fmt.Printf("Scan from %s with %d failed %v\n", key, recordCount, err)
-		return
-	}
+// 	rows, err := globalDB.Scan(shellContext, tableName, key, recordCount, fields)
+// 	if err != nil {
+// 		fmt.Printf("Scan from %s with %d failed %v\n", key, recordCount, err)
+// 		return
+// 	}
 
-	if len(rows) == 0 {
-		fmt.Println("0 records")
-		return
-	}
+// 	if len(rows) == 0 {
+// 		fmt.Println("0 records")
+// 		return
+// 	}
 
-	fmt.Println("--------------------------------")
-	for i, row := range rows {
-		fmt.Printf("Record %d\n", i+1)
-		for key, value := range row {
-			fmt.Printf("%s=%q\n", key, value)
-		}
-	}
-	fmt.Println("--------------------------------")
-}
+// 	fmt.Println("--------------------------------")
+// 	for i, row := range rows {
+// 		fmt.Printf("Record %d\n", i+1)
+// 		for key, value := range row {
+// 			fmt.Printf("%s=%q\n", key, value)
+// 		}
+// 	}
+// 	fmt.Println("--------------------------------")
+// }
 
 func runShellInsertCommand(cmd *cobra.Command, args []string) {
 	key := args[0]
